@@ -55,3 +55,29 @@ const posts = [
         "created": "2021-03-05"
     }
 ];
+// dichiarazione container
+const CONTAINER = document.getElementById("container");
+
+// creazione layout post
+for (let i = 0 ; i < posts.length ; i++){
+    // layout card
+    let card = document.createElement("div");
+    CONTAINER.append(card);
+    card.classList.add("post");
+
+    let cardHeader = document.createElement("div");
+    card.append(cardHeader);
+    cardHeader.classList.add("post__header");
+
+    let cardText = document.createElement("div");
+    card.append(cardText);
+    cardText.classList.add("post-text");
+
+    let cardImg = document.createElement("div");
+    card.append(cardImg);
+    cardImg.classList.add("post__img");
+
+    let cardFooter = document.createElement("div");
+    card.append(cardFooter);
+    cardFooter.classList.add("post__footer")
+}
