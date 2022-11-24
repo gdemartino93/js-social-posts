@@ -69,7 +69,7 @@ const CONTAINER = document.getElementById("container");
 posts.forEach((element) => {
 
 let dataFormattata = element.created;
-dataFormattata = new Date().toLocaleDateString('it-IT', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) 
+dataFormattata = new Date().toLocaleDateString('it-IT', { weekday:"long", year:"numeric", month:"numeric", day:"numeric"}) // per cambiare mese da numeri a testo inserire short
 
 
     let card = 
@@ -116,6 +116,7 @@ const POST_LIKED = [];
 for (let i = 0; i < BTN_LIKE.length; i++){
     BTN_LIKE[i].addEventListener("click",
         function() {
+            
             // prendi id del post da pushare nell'array
             const POST_ID = this.getAttribute('data-postid');
 
@@ -127,12 +128,21 @@ for (let i = 0; i < BTN_LIKE.length; i++){
                 // aggiungere number altrimenti aggiunge 1 alla stringa e trasforma tutto in stringa
 
                 POST_LIKES.innerHTML = Number(POST_LIKES.innerHTML) + 1;
+                BTN_LIKE[i].addEventListener("click", function(){
+                    this.classList.remove('like-button--liked');
+                    this.classList.add('red');
+                    POST_LIKED.innerHTML = Number(POST_LIKES.innerHTML) + 1;
+                })
 
                 // DA FARE CHECK PRIMA DEL PUSH SU NUOVI ID OPPURE DA TOGLIERE SE TOLGO LIKE
                 POST_LIKED.push(POST_ID);
             } else {
-                this.classList.remove('like-button--liked');
+                this.classList.add('like-button--liked');
                 POST_LIKES.innerHTML = Number(POST_LIKES.innerHTML) - 1;
+                BTN_LIKE[i].addEventListener("click", function(){
+                    this.classList.remove('red');
+                    this.classList.add('like-button--liked');
+                })
             }
             console.log(POST_LIKED);
         })
