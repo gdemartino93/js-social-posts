@@ -59,103 +59,70 @@ const posts = [
 // dichiarazione container
 const CONTAINER = document.getElementById("container");
 
-// creazione layout post
-for (let i = 0 ; i < posts.length ; i++){
-    
-    let objArr = posts[i];
+posts.forEach((element) => {
 
-        for ( let key in objArr){
-            let subObjArr = objArr[key]
-            // console.log(subObjArr);
-        }
+    let card = 
 
-    // destructuring obj array
-    const {id,content,media,author,likes,created}=objArr;
-    const{ name,image}= author;
+        `<div class="post">
+        <div class="post__header">
+            <div class="post-meta">                    
+                <div class="post-meta__icon">
+                    <img class="profile-pic" src="${element.author.image}" alt="">                    
+                </div>
+                <div class="post-meta__data">
+                    <div class="post-meta__author">${element.author.name}</div>
+                    <div class="post-meta__time">${element.created}</div>
+                </div>                    
+            </div>
+        </div>
+        <div class="post__text">${element.content}</div>
+        <div class="post__image">
+            <img src="${element.media}" alt="">
+        </div>
+        <div class="post__footer">
+            <div class="likes js-likes">
+                <div class="likes__cta">
+                    <a class="like-button  js-like-button" data-postid="${element.id}">
+                        <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                        <span class="like-button__label">Mi Piace</span>
+                    </a>
+                </div>
+                <div class="likes__counter">
+                    Piace a <b id="like-counter-${element.id}" class="js-likes-counter">
+                    ${element.likes}</b> persone
+                </div>
+            </div> 
+        </div>            
+        </div>`
 
-    ///////////////////////////LAYOUT CARD!///////////////////////////////////
-    let card = document.createElement("div");
-    CONTAINER.append(card);
-    card.classList.add("post");
+CONTAINER.innerHTML+=`${card}`
 
-    // HEADER
-    let cardHeader = document.createElement("div");
-    card.append(cardHeader);
-    cardHeader.classList.add("post__header");
-    
-    // POST-META
-    let subHeader = document.createElement("div");
-    cardHeader.append(subHeader);
-    subHeader.classList.add("post-meta")
-    
-    //ICON-HEADER
-    let iconHeader = document.createElement("div");
-    subHeader.append(iconHeader);
-    iconHeader.classList.add("post-meta__icon");
-    iconHeader.innerHTML = `<img class="profile-pic" src="${image}" alt="${name}">  `
-
-    // DATA-HEADER
-    let dataHeader = document.createElement("div");
-    subHeader.append(dataHeader);
-    dataHeader.classList.add("post-meta__data");
-    
-
-    // SUB DATA HEADER AUTHOR
-    let authorData = document.createElement("div");
-    dataHeader.append(authorData);
-    authorData.classList.add("post-meta__author");
-    authorData.innerHTML = `${name}`
-    
-    // SUD DATA HEADER TIME
-    let timeData = document.createElement("div");
-    dataHeader.append(timeData);
-    timeData.classList.add("post-meta__time");
-    timeData.innerHTML = `${created}`
-    // TEXT
-    let cardText = document.createElement("div");
-    card.append(cardText);
-    cardText.classList.add("post-text");
-    cardText.innerHTML = `${content}`
-    
-    // IMAGE
-    let cardImg = document.createElement("div");
-    card.append(cardImg);
-    cardImg.classList.add("post__image");
-    cardImg.innerHTML=`<img src="${media}" alt="">`
-
-    // FOOTER
-    let cardFooter = document.createElement("div");
-    card.append(cardFooter);
-    cardFooter.classList.add("post__footer");
-
-    // SUBFOOTER
-    let subFooter = document.createElement("div");
-    cardFooter.append(subFooter);
-    subFooter.classList.add("likes");
-    subFooter.classList.add("js-likes");
-
-    // LIKES BTN
-    let likesDiv = document.createElement("div");
-    subFooter.appendChild(likesDiv);
-    likesDiv.classList.add("likes__cta");
-    likesDiv.innerHTML=`
-    <a class="like-button  js-like-button" href="#" data-postid="1" id="like-btn">
-    <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-    <span class="like-button__label">Mi Piace</span>
-    </a>`
-        
-    // LIKES COUNT
-    let likesCount = document.createElement("div");
-    subFooter.appendChild(likesCount);
-    likesCount.classList.add("likes__counter")
-    likesCount.innerHTML = `Piace a 
-    <b id="like-counter-1" class="js-likes-counter">80</b>
-     persone`
-/////////////////// LAYOUT CARD //////////////////////
-}
-
-const LIKE_BTN = document.getElementById("like-btn")
-LIKE_BTN.addEventListener("click",
-function(){
-    document.querySelector(".like-button__label").classList.toggle("like-button--liked")
 })
+
+const BTN_LIKE = document.querySelectorAll(".like-button");
+
+let conteggio = 0;
+
+for (let i = 0; i < BTN_LIKE.length; i++){
+    BTN_LIKE[i].addEventListener("click",
+        function() {
+            BTN_LIKE[i].classList.toggle(".blu");
+
+            let like = posts[i].likes;
+
+            let id = i + 1;
+
+            let counter = document.getElementById(`like-counter-${id}`);
+
+            counter.innerHTML = like + 1;
+
+            if(conteggio === 0){
+                conteggio ++;
+                counter.innerHTML = like + conteggio;
+            }else if(conteggio === 1){
+                conteggio --;
+                counter.innerHTML = like + conteggio;
+            }
+        }
+    );
+}
