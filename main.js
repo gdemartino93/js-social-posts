@@ -56,10 +56,21 @@ const posts = [
     }
 ];
 
+const{created}= posts;
+console.log(created);
+
+// exerciseLog = exerciseLog.map(x => date.toLocaleDateString());
+// const DATE_FORMATTATE = posts.map(x => x.created.toLocaleDateString());
+//  dateLog = posts.map(data => created.toLocaleDateString());
+
 // dichiarazione container
 const CONTAINER = document.getElementById("container");
 
 posts.forEach((element) => {
+
+let dataFormattata = element.created;
+dataFormattata = new Date().toLocaleDateString('it-IT', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) 
+
 
     let card = 
 
@@ -71,7 +82,7 @@ posts.forEach((element) => {
                 </div>
                 <div class="post-meta__data">
                     <div class="post-meta__author">${element.author.name}</div>
-                    <div class="post-meta__time">${element.created}</div>
+                    <div class="post-meta__time">${dataFormattata}</div>
                 </div>                    
             </div>
         </div>
