@@ -100,29 +100,31 @@ CONTAINER.innerHTML+=`${card}`
 })
 
 const BTN_LIKE = document.querySelectorAll(".like-button");
-
-let conteggio = 0;
+const POST_LIKED = [];
 
 for (let i = 0; i < BTN_LIKE.length; i++){
     BTN_LIKE[i].addEventListener("click",
         function() {
-            BTN_LIKE[i].classList.toggle(".blu");
+            // prendi id del post da pushare nell'array
+            const POST_ID = this.getAttribute('data-postid');
 
-            let like = posts[i].likes;
+            // id tag <b> like
+            const POST_LIKES = document.querySelector(`#like-counter-${POST_ID}`);
+            if( !this.classList.contains('like-button--liked') ) {
+                this.classList.add('like-button--liked');
+                
+                // aggiungere number altrimenti aggiunge 1 alla stringa e trasforma tutto in stringa
 
-            let id = i + 1;
+                POST_LIKES.innerHTML = Number(POST_LIKES.innerHTML) + 1;
 
-            let counter = document.getElementById(`like-counter-${id}`);
-
-            counter.innerHTML = like + 1;
-
-            if(conteggio === 0){
-                conteggio ++;
-                counter.innerHTML = like + conteggio;
-            }else if(conteggio === 1){
-                conteggio --;
-                counter.innerHTML = like + conteggio;
+                // DA FARE CHECK PRIMA DEL PUSH SU NUOVI ID OPPURE DA TOGLIERE SE TOLGO LIKE
+                POST_LIKED.push(POST_ID);
+            } else {
+                this.classList.remove('like-button--liked');
+                POST_LIKES.innerHTML = Number(POST_LIKES.innerHTML) - 1;
             }
-        }
-    );
-}
+            console.log(POST_LIKED);
+        })
+    }
+       
+    
